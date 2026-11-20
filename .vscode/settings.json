@@ -1,1 +1,15 @@
-{}
+{
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "doomsday-local",
+      "database": "postgres",
+      "username": "postgres",
+      "password": "@_Sakib123"
+    }
+  ]
+}
