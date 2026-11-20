@@ -1,4 +1,18 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { MoviesService } from './movies.service';
+import { parseCreateMovie } from './dto/create-movie.dto';
 
 @Controller('movies')
-export class MoviesController {}
+export class MoviesController {
+  constructor(private readonly moviesService: MoviesService) {}
+
+  @Post()
+  create(@Body() body: unknown) {
+    return this.moviesService.create(parseCreateMovie(body));
+  }
+
+  @Get()
+  findAll() {
+    return this.moviesService.findAll();
+  }
+}
