@@ -3,6 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { NotFoundException } from '@nestjs/common';
+import { UpdateMovieDto } from './dto/update-movie.dto';
+import { wouldCreateCycle } from './logic/circular-check';
 
 @Injectable()
 export class MoviesService {
@@ -44,6 +47,40 @@ export class MoviesService {
     );
     return this.toResponse(saved);
   }
+
+
+
+  async update(id: number, dto: UpdateMovieDto) {
+  const movie = await this.repo.findOne({ where: { id }, relations: { prerequisites: true } });
+  if (!movie) throw new NotFoundException({ code: 'MOVIE_NOT_FOUND', message: 'Movie not found' });
+
+  if (dto.title !== undefined && dto.title !== movie.title) {
+    const dup = await this.repo.findOne({ where: { title: dto.title } });
+    if (dup) throw new ConflictException({ code: 'DUPLICATE_TITLE', message: 'A movie with this title already exists' });
+  }
+
+  if (dto.prerequisiteIds !== undefined) {
+    const found = dto.prerequisiteIds.length ? await this.repo.findBy({ id: In(dto.prerequisiteIds) }) : [];
+    if (found.length !== dto.prerequisiteIds.length)
+      throw new BadRequestException({ code: 'PREREQUISITE_NOT_FOUND', message: 'One or more prerequisite movies do not exist' });
+
+    const all = await this.repo.find({ relations: { prerequisites: true } });
+    const graph: Record<number, number[]> = {};
+  for (const m of all) graph[m.id] = m.prerequisites.map((p) => p.id);
+    if (wouldCreateCycle(id, dto.prerequisiteIds, graph))
+      throw new ConflictException({ code: 'CIRCULAR_DEPENDENCY', message: 'This change would create a circular dependency' });
+    movie.prerequisites = found;
+  }
+
+  if (dto.title !== undefined) movie.title = dto.title;
+  if (dto.releaseYear !== undefined) movie.releaseYear = dto.releaseYear;
+  if (dto.runtimeMinutes !== undefined) movie.runtimeMinutes = dto.runtimeMinutes;
+  if (dto.watched !== undefined) movie.watched = dto.watched;
+
+  return this.toResponse(await this.repo.save(movie));
+}
+
+
 
   async findAll() {
     // const movies = await this.repo.find({ relations: ['prerequisites'], order: { id: 'ASC' } });

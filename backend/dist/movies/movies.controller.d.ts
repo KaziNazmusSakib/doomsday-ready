@@ -10,6 +10,14 @@ export declare class MoviesController {
         watched: boolean;
         prerequisiteIds: number[];
     }>;
+    update(id: number, body: unknown): Promise<{
+        id: number;
+        title: string;
+        releaseYear: number;
+        runtimeMinutes: number;
+        watched: boolean;
+        prerequisiteIds: number[];
+    }>;
     findAll(): Promise<{
         id: number;
         title: string;

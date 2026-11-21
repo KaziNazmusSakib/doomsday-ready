@@ -1,13 +1,31 @@
-/**
- * graph: movieId -> ids of its current prerequisites
- * Returns true if giving `movieId` the prerequisites `newPrerequisiteIds`
- * would create a cycle (including a movie depending on itself).
- */
+ 
 export function wouldCreateCycle(
   movieId: number,
   newPrerequisiteIds: number[],
-  graph: Map<number, number[]>,
+  graph: Record<number, number[]>,
 ): boolean {
-  // TODO: write this yourself
-  return false;
+   for (const start of newPrerequisiteIds){
+    const stack: number[] = [start];
+    const visited: Record<number, boolean>= {};
+
+    while (stack.length > 0) {
+        const id = stack.pop()!;
+    
+    if (id === movieId) {
+       return true;
+    }
+
+    if (visited[id]) {
+      continue;
+    }
+    visited[id] = true;
+
+    for (const prereqId of graph[id] ?? []) { {
+      stack.push(prereqId);
+    }
+   }
+  }
+ }
+ 
+   return false;
 }
