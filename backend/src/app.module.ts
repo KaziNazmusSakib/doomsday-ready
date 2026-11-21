@@ -12,6 +12,7 @@ import { CinemasModule } from './cinemas/cinemas.module';
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     }),
     MoviesModule,
     CinemasModule,
