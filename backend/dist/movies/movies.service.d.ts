@@ -22,6 +22,20 @@ export declare class MoviesService {
         watched: boolean;
         prerequisiteIds: number[];
     }>;
+    rewatchOrder(id: number): Promise<{
+        movieId: number;
+        title: string;
+        order: {
+            id: number;
+            title: string;
+            releaseYear: number;
+            runtimeMinutes: number;
+            watched: boolean;
+        }[];
+        watchedCount: number;
+        totalCount: number;
+        remainingRuntimeMinutes: number;
+    }>;
     findAll(): Promise<{
         id: number;
         title: string;
