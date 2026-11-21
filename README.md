@@ -287,3 +287,11 @@ Routes were checked in Postman. The exported collection is in `docs/postman/`. I
 - **Documentation:** Claude drafted this README and the Mermaid diagram, which I checked against the code.
 
 **How I checked the work:** I ran every example from the brief against the running API and tested the error cases by hand.
+
+
+## Live demo
+
+- App: https://YOUR-APP.vercel.app
+- API: https://doomsday-ready-api-docker.onrender.com/api
+
+The backend runs on a free tier and sleeps after 15 minutes idle, so the first load can take about a minute.
