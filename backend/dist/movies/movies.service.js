@@ -19,6 +19,7 @@ const typeorm_2 = require("typeorm");
 const movie_entity_1 = require("./entities/movie.entity");
 const common_2 = require("@nestjs/common");
 const circular_check_1 = require("./logic/circular-check");
+const rewatch_order_1 = require("./logic/rewatch-order");
 let MoviesService = class MoviesService {
     repo;
     constructor(repo) {
@@ -85,6 +86,34 @@ let MoviesService = class MoviesService {
         if (dto.watched !== undefined)
             movie.watched = dto.watched;
         return this.toResponse(await this.repo.save(movie));
+    }
+    async rewatchOrder(id) {
+        const movies = await this.repo.find({ relations: { prerequisites: true } });
+        const byId = {};
+        const graph = {};
+        for (const m of movies) {
+            byId[m.id] = m;
+            graph[m.id] = m.prerequisites.map((p) => p.id);
+        }
+        const target = byId[id];
+        if (!target)
+            throw new common_2.NotFoundException({ code: 'MOVIE_NOT_FOUND', message: 'Movie not found' });
+        const order = (0, rewatch_order_1.getRewatchOrder)(id, graph).map((x) => ({
+            id: x,
+            title: byId[x].title,
+            releaseYear: byId[x].releaseYear,
+            runtimeMinutes: byId[x].runtimeMinutes,
+            watched: byId[x].watched,
+        }));
+        let watchedCount = 0;
+        let remainingRuntimeMinutes = 0;
+        for (const m of order) {
+            if (m.watched)
+                watchedCount++;
+            else
+                remainingRuntimeMinutes += m.runtimeMinutes;
+        }
+        return { movieId: id, title: target.title, order, watchedCount, totalCount: order.length, remainingRuntimeMinutes };
     }
     async findAll() {
         const movies = await this.repo.find({ relations: { prerequisites: true }, order: { id: 'ASC' } });

@@ -6,6 +6,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { NotFoundException } from '@nestjs/common';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { wouldCreateCycle } from './logic/circular-check';
+import { getRewatchOrder } from './logic/rewatch-order';
 
 @Injectable()
 export class MoviesService {
@@ -80,6 +81,36 @@ export class MoviesService {
   return this.toResponse(await this.repo.save(movie));
 }
 
+
+async rewatchOrder(id: number) {
+  const movies = await this.repo.find({ relations: { prerequisites: true } });
+  const byId: Record<number, Movie> = {};
+  const graph: Record<number, number[]> = {};
+  for (const m of movies) {
+    byId[m.id] = m;
+    graph[m.id] = m.prerequisites.map((p) => p.id);
+  }
+
+  const target = byId[id];
+  if (!target) throw new NotFoundException({ code: 'MOVIE_NOT_FOUND', message: 'Movie not found' });
+
+  const order = getRewatchOrder(id, graph).map((x) => ({
+    id: x,
+    title: byId[x].title,
+    releaseYear: byId[x].releaseYear,
+    runtimeMinutes: byId[x].runtimeMinutes,
+    watched: byId[x].watched,
+  }));
+
+  let watchedCount = 0;
+  let remainingRuntimeMinutes = 0;
+  for (const m of order) {
+    if (m.watched) watchedCount++;
+    else remainingRuntimeMinutes += m.runtimeMinutes;
+  }
+
+  return { movieId: id, title: target.title, order, watchedCount, totalCount: order.length, remainingRuntimeMinutes };
+}
 
 
   async findAll() {

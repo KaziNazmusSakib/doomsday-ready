@@ -17,6 +17,10 @@ export class MoviesController {
     return this.moviesService.update(id, parseUpdateMovie(body));
   }
 
+  @Get(':id/rewatch-order')
+  rewatchOrder(@Param('id', ParseIntPipe) id: number) {
+    return this.moviesService.rewatchOrder(id);
+  }
 
   @Get()
   findAll() {

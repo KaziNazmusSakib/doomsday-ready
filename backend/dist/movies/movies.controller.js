@@ -28,6 +28,9 @@ let MoviesController = class MoviesController {
     update(id, body) {
         return this.moviesService.update(id, (0, update_movie_dto_1.parseUpdateMovie)(body));
     }
+    rewatchOrder(id) {
+        return this.moviesService.rewatchOrder(id);
+    }
     findAll() {
         return this.moviesService.findAll();
     }
@@ -48,6 +51,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "update", null);
+__decorate([
+    (0, common_1.Get)(':id/rewatch-order'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], MoviesController.prototype, "rewatchOrder", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
