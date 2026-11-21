@@ -128,6 +128,21 @@ Create the cinemas with `POST /api/cinemas`:
 
 The prerequisite links come from the assessment. The release years and runtimes are sample values I chose.
 
+## Run with Docker
+
+Requires Docker Desktop. From the repo root:
+
+```bash
+docker compose up --build
+```
+
+- App: http://localhost:8080
+- API: http://localhost:3000/api
+
+This starts PostgreSQL, the backend and the frontend. The database starts empty, so create the sample data from the tables above. Stop with `docker compose down` (add `-v` to also delete the data).
+
+The database password in `docker-compose.yml` is for local demo use only.
+
 ## API
 
 All routes are under `/api`.
