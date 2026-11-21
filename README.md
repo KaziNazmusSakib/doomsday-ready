@@ -18,29 +18,34 @@ A small full-stack app that helps MCU fans plan their rewatch before *Avengers: 
 ```
 doomsday-ready/
 ├── backend/
-│   └── src/
-│       ├── movies/
-│       │   ├── entities/movie.entity.ts
-│       │   ├── dto/                      request validation  
-│       │   ├── logic/
-│       │   │   ├── circular-check.ts     Feature 1: cycle detection
-│       │   │   └── rewatch-order.ts      Feature 1: rewatch order
-│       │   ├── movies.controller.ts
-│       │   ├── movies.service.ts
-│       │   └── movies.module.ts
-│       └── cinemas/
-│           ├── entities/cinema.entity.ts
-│           ├── dto/
-│           ├── logic/booking-quote.ts    Feature 2: booking quote
-│           ├── cinemas.controller.ts
-│           ├── cinemas.service.ts
-│           └── cinemas.module.ts
+│   ├── src/
+│   │   ├── movies/
+│   │   │   ├── entities/movie.entity.ts
+│   │   │   ├── dto/                      request validation
+│   │   │   ├── logic/
+│   │   │   │   ├── circular-check.ts     Feature 1: cycle detection
+│   │   │   │   └── rewatch-order.ts      Feature 1: rewatch order
+│   │   │   ├── movies.controller.ts
+│   │   │   ├── movies.service.ts
+│   │   │   └── movies.module.ts
+│   │   └── cinemas/
+│   │       ├── entities/cinema.entity.ts
+│   │       ├── dto/
+│   │       ├── logic/booking-quote.ts    Feature 2: booking quote
+│   │       ├── cinemas.controller.ts
+│   │       ├── cinemas.service.ts
+│   │       └── cinemas.module.ts
+│   ├── .env.example
+│   └── Dockerfile
 ├── frontend/
-│   └── src/
-│       ├── api/client.js                 Axios instance and API calls
-│       ├── pages/                        Movies, RewatchPlan, Booking
-│       └── App.jsx
+│   ├── src/
+│   │   ├── api/client.js                 Axios instance and API calls
+│   │   ├── pages/                        Movies, RewatchPlan, Booking
+│   │   └── App.jsx
+│   ├── .env.example
+│   └── Dockerfile
 ├── docs/postman/                         exported Postman collection
+├── docker-compose.yml                    PostgreSQL + backend + frontend
 └── README.md
 ```
 
