@@ -12,3 +12,9 @@ export const getRewatchOrder = (id) => api.get(`/movies/${id}/rewatch-order`).th
 export const getCinemas = () => api.get('/cinemas').then((r) => r.data);
 export const getBooking = (id, groupSize) =>
   api.get(`/cinemas/${id}/booking`, { params: { groupSize } }).then((r) => r.data);
+
+export function errorMessage(e) {
+  const d = e.response?.data;
+  if (!d) return e.message;
+  return Array.isArray(d.message) ? d.message.join(', ') : (d.message ?? 'Something went wrong');
+}
