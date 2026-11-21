@@ -21,7 +21,7 @@ doomsday-ready/
 │   └── src/
 │       ├── movies/
 │       │   ├── entities/movie.entity.ts
-│       │   ├── dto/                      request validation (hand-written)
+│       │   ├── dto/                      request validation  
 │       │   ├── logic/
 │       │   │   ├── circular-check.ts     Feature 1: cycle detection
 │       │   │   └── rewatch-order.ts      Feature 1: rewatch order
