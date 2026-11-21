@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
-import { getMovies } from './api/client';
+import { useState } from 'react';
+import Movies from './pages/Movies';
+
+const TABS = ['Movies', 'Rewatch Plan', 'Booking'];
 
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    getMovies().then(setMovies).catch((e) => setError(e.message));
-  }, []);
+  const [tab, setTab] = useState('Movies');
 
   return (
-    <div className="mx-auto max-w-xl p-6">
+    <div className="mx-auto max-w-3xl p-6">
       <h1 className="text-2xl font-bold text-indigo-600">Doomsday Ready</h1>
-      {error && <p className="mt-4 text-red-600">{error}</p>}
-      <ul className="mt-4 list-disc pl-5">
-        {movies.map((m) => <li key={m.id}>{m.title}</li>)}
-      </ul>
+      <nav className="mt-4 flex gap-2 border-b border-slate-200">
+        {TABS.map((t) => (
+          <button key={t} onClick={() => setTab(t)}
+            className={`px-3 py-2 text-sm font-medium ${tab === t ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-slate-500'}`}>
+            {t}
+          </button>
+        ))}
+      </nav>
+      <main className="mt-6">
+        {tab === 'Movies' && <Movies />}
+        {tab === 'Rewatch Plan' && <p className="text-slate-500">Coming next.</p>}
+        {tab === 'Booking' && <p className="text-slate-500">Coming next.</p>}
+      </main>
     </div>
   );
 }
