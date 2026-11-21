@@ -291,7 +291,7 @@ Routes were checked in Postman. The exported collection is in `docs/postman/`. I
 
 ## Live demo
 
-- App: https://YOUR-APP.vercel.app
+- App: https://doomsday-ready-cyan.vercel.app/
 - API: https://doomsday-ready-api-docker.onrender.com/api
 
 The backend runs on a free tier and sleeps after 15 minutes idle, so the first load can take about a minute.
