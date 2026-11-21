@@ -24,6 +24,7 @@ exports.AppModule = AppModule = __decorate([
                 url: process.env.DATABASE_URL,
                 autoLoadEntities: true,
                 synchronize: true,
+                ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
             }),
             movies_module_1.MoviesModule,
             cinemas_module_1.CinemasModule,
