@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Movies from './pages/Movies';
 import RewatchPlan from './pages/RewatchPlan';
+import Booking from './pages/Booking';
 
 const TABS = ['Movies', 'Rewatch Plan', 'Booking'];
 
@@ -21,7 +22,7 @@ export default function App() {
       <main className="mt-6">
         {tab === 'Movies' && <Movies />}
         {tab === 'Rewatch Plan' && <RewatchPlan />}
-        {tab === 'Booking' && <p className="text-slate-500">Coming next.</p>}
+        {tab === 'Booking' && <Booking />}
       </main>
     </div>
   );
