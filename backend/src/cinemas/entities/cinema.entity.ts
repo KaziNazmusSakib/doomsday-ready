@@ -11,3 +11,4 @@ export class Cinema {
   @Column('int', { array: true, name: 'bundle_sizes' })
   bundleSizes: number[];
 }
+

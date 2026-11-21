@@ -16,6 +16,7 @@ exports.MoviesController = void 0;
 const common_1 = require("@nestjs/common");
 const movies_service_1 = require("./movies.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
+const update_movie_dto_1 = require("./dto/update-movie.dto");
 let MoviesController = class MoviesController {
     moviesService;
     constructor(moviesService) {
@@ -23,6 +24,9 @@ let MoviesController = class MoviesController {
     }
     create(body) {
         return this.moviesService.create((0, create_movie_dto_1.parseCreateMovie)(body));
+    }
+    update(id, body) {
+        return this.moviesService.update(id, (0, update_movie_dto_1.parseUpdateMovie)(body));
     }
     findAll() {
         return this.moviesService.findAll();
@@ -36,6 +40,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "create", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", void 0)
+], MoviesController.prototype, "update", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
